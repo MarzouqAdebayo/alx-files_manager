@@ -45,7 +45,11 @@ class RedisClient {
   }
 
   async del(key) {
-    await this.client.del(key);
+    return new Promise((_, reject) => {
+      this.client.del(key, (err) => {
+        if (err) reject(err);
+      });
+    });
   }
 }
 
