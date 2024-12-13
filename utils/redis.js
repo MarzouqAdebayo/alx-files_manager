@@ -1,4 +1,4 @@
-import { createClient } from "redis";
+import { createClient } from 'redis';
 
 class RedisClient {
   constructor() {
@@ -6,21 +6,22 @@ class RedisClient {
 
     this.client = createClient();
 
-    this.client.on("error", (err) => {
+    this.client.on('error', (err) => {
       this.isConnected = false;
-      console.error("Redis Client Error:", err);
+      console.error('Redis Client Error:', err);
     });
 
-    this.client.on("connect", () => {
+    this.client.on('connect', () => {
       this.isConnected = true;
     });
   }
 
   isAlive() {
     return this.isConnected;
-    /*client.ping()
+    /* client.ping()
       .then(() => true)
-      .catch(() => false);*/
+      .catch(() => false);
+      */
   }
 
   /**
