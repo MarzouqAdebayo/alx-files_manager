@@ -1,7 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { configDotenv } from 'dotenv';
 
-
 /**
  * MongoDB client
  */
@@ -18,6 +17,21 @@ class DBClient {
 
     this.client = new MongoClient(uri, { useUnifiedTopology: true });
     this.client.connect();
+    this.isConnected = false;
+    this.connect();
+  }
+
+  /**
+   * Connects to the MongoDB server.
+   * Sets the database reference and updates the connection status.
+   */
+  async connect() {
+    try {
+      this.db = this.client.db(this.database);
+      this.isConnected = true;
+    } catch (err) {
+      this.isConnected = false;
+    }
   }
 
   /**
@@ -25,7 +39,7 @@ class DBClient {
    * @returns {boolean} - Returns true if connected, flase otherwise.
    */
   isAlive() {
-    return this.client.isConnected();
+    return this.isConnected;
   }
 
   /**
@@ -33,7 +47,7 @@ class DBClient {
    * @returns {Promise<number>} - A promise that resolves to the count of documents.
    */
   async nbUsers() {
-    return this.client.db().collection('users').countDocuments();
+    return this.db.collection('users').countDocuments();
   }
 
   /**
@@ -41,11 +55,11 @@ class DBClient {
    * @returns {Promise<number>} - A promise that resolves to the count of documents.
    */
   async nbFiles() {
-    return this.client.db().collection('files').countDocuments();
+    return this.db.collection('files').countDocuments();
   }
 
   async usersCollection() {
-    return this.client.db().collection('users');
+    return this.db.collection('users');
   }
 
   /**
@@ -53,7 +67,7 @@ class DBClient {
    * @returns {Promise<Collection>} - A promise that resolves to the 'files' colection.
    */
   async filesCollection() {
-    return this.client.db().collection('files');
+    return this.db.collection('files');
   }
 }
 
