@@ -12,8 +12,8 @@ export default class AppController {
   }
 
   static getStats(res) {
-    const { nbUsers } = dbClient;
-    const { nbFiles } = dbClient;
+    const nbUsers = dbClient.nbFiles();
+    const nbFiles = dbClient.nbUsers();
     res.status(200).json({ users: nbUsers, files: nbFiles });
   }
 }
