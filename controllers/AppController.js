@@ -11,9 +11,9 @@ export default class AppController {
     });
   }
 
-  static getStats(res) {
-    const nbUsers = dbClient.nbFiles();
-    const nbFiles = dbClient.nbUsers();
+  static async getStats(res) {
+    const nbUsers = await dbClient.nbUsers();
+    const nbFiles = await dbClient.nbFiles();
     res.status(200).json({ users: nbUsers, files: nbFiles });
   }
 }
