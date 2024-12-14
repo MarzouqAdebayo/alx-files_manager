@@ -1,9 +1,13 @@
-import AppController from '../controllers/AppController';
-import { Router } from 'express';
+/**
+ * This module defines the routes for the API using Express.
+ * It sets up the endpoints for 'status' and 'stats' using the methods
+ * from the `AppController` to handle the respective requests.
+ */
+import AppController from "../controllers/AppController";
 
-const router = Router();
-
-router.get('/status', AppController.getStatus);
-router.get('/stats', AppController.getStats);
+const router = (api) => {
+  api.get('/status', AppController.getStatus);
+  api.get('/stats', AppController.getStats);
+}
 
 export default router;
