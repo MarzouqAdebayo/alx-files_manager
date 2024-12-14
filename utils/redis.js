@@ -18,10 +18,6 @@ class RedisClient {
 
   isAlive() {
     return this.isConnected;
-    /* client.ping()
-      .then(() => true)
-      .catch(() => false);
-      */
   }
 
   /**
