@@ -1,10 +1,16 @@
 import { MongoClient } from 'mongodb';
 import { configDotenv } from 'dotenv';
 
-configDotenv();
 
+/**
+ * MongoDB client
+ */
 class DBClient {
+  /**
+   * Creates DBClient instance
+   */
   constructor() {
+    configDotenv();
     const host = process.env.DB_HOST || 'localhost';
     const port = process.env.DB_PORT || '27017';
     const database = process.env.DB_DATABASE || 'files_manager';
