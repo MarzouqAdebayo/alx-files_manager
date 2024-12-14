@@ -11,6 +11,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.use(router);
+router(app);
 
 export default app;
