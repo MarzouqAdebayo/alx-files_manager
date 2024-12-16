@@ -1,4 +1,5 @@
 import { createClient } from 'redis';
+import { promisify } from 'util';
 
 class RedisClient {
   constructor() {
@@ -25,12 +26,7 @@ class RedisClient {
    * @returns {Promise<any>}
    */
   async get(key) {
-    return new Promise((resolve, reject) => {
-      this.client.get(key, (err, result) => {
-        if (err) reject(err);
-        resolve(result);
-      });
-    });
+    return promisify(this.client.get).bind(this.client)(key);
   }
 
   /**
@@ -40,15 +36,7 @@ class RedisClient {
    * @returns {Promise<any>}
    */
   async set(key, value, duration) {
-    return new Promise((_, reject) => {
-      this.client.set(key, value, (err) => {
-        if (err) reject(err);
-
-        this.client.expire(key, duration, (err) => {
-          if (err) reject(err);
-        });
-      });
-    });
+    return promisify(this.client.setex).bind(this.client)(key, duration, value);
   }
 
   /**
@@ -56,11 +44,7 @@ class RedisClient {
    * @returns {Promise<void>}
    */
   async del(key) {
-    return new Promise((_, reject) => {
-      this.client.del(key, (err) => {
-        if (err) reject(err);
-      });
-    });
+    return promisify(this.client.del).bind(this.client)(key);
   }
 }
 
